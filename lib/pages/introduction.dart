@@ -10,7 +10,7 @@ class Introduction extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
   double width = MediaQuery.of(context).size.width;
-  print(width);
+  // print(width);
   bool _visible = true;
   final controller = FadeInController(autoStart: true);
   final controller2 = FadeInController(autoStart: true);
