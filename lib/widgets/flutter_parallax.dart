@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-ValueNotifier offset = ValueNotifier<double>(0);
+ValueListenable offset = ValueNotifier<double>(0);
 
 class FlutterParallax extends StatefulWidget {
   final List<Widget> screens;
@@ -21,14 +21,12 @@ class FlutterParallax extends StatefulWidget {
 
 class _FlutterParallaxState extends State<FlutterParallax> {
   PageController pageController;
-  double pageOffset = 0;
 
   @override
   void initState() {
     super.initState();
     pageController = PageController(viewportFraction: 1);
     pageController.addListener(() {
-      setState(() => pageOffset = pageController.page);
       offset.value = pageController.page;
     });
   }
@@ -49,15 +47,24 @@ class _FlutterParallaxState extends State<FlutterParallax> {
     );
 
     if (widget.backgroundImage is ImageProvider) {
-      return Container(
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image: widget.backgroundImage,
-            alignment: Alignment(0, pageOffset.abs() / 3),
-            fit: BoxFit.cover,
-          ),
-        ),
-        child: pageViewWidget,
+      return ValueListenableBuilder<double>(
+        valueListenable: offset,
+        builder: (
+          BuildContext context,
+          double pageOffset,
+          Widget child,
+        ) {
+          return Container(
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: widget.backgroundImage,
+                alignment: Alignment(0, pageOffset.abs() / 3),
+                fit: BoxFit.cover,
+              ),
+            ),
+            child: pageViewWidget,
+          );
+        },
       );
     }
 
@@ -81,7 +88,7 @@ class _FlutterParallaxChildState extends State<FlutterParallaxChild> {
   @override
   Widget build(BuildContext context) {
     return ValueListenableBuilder<double>(
-      valueListenable: offset.value,
+      valueListenable: offset,
       builder: (
         BuildContext context,
         double pageOffset,
