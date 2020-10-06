@@ -15,6 +15,7 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+
 class Portfolio extends StatelessWidget {
   const Portfolio({
     Key key,
@@ -25,7 +26,9 @@ class Portfolio extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Amogh Jahagirdar',
-      theme:ThemeSwitcher.of(context).isDarkModeOn?darkTheme(context):lightTheme(context),
+      theme: ThemeSwitcher.of(context).isDarkModeOn
+          ? darkTheme(context)
+          : lightTheme(context),
       home: HomePage(),
     );
   }
